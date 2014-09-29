@@ -9,6 +9,8 @@
 ;;                                                                             ;;
 ;;-----------------------------------------------------------------------------;;
 
+(load "network.scm")
+
 ;; Class definition
 (define-class <human> (<player>) symbol)
 
@@ -19,9 +21,9 @@
         (move-made '()))
     (do ()
         (valid-move?)
-      (let* ((player-move (readline "\nEnter move as <ring>-<index>: "))
+      (let* ((player-move (get-socket-data 6666))
              (cell (map string->number (string-split player-move #\-))))
         (set! valid-move? (free-cell? p cell board))
-        (cond ((not valid-move?) (format #t "Not a valid move. Try again.\n"))
-              (else (set! move-made cell)))))
+        (cond (valid-move? (set! move-made cell))
+              (else '()))))
     move-made))

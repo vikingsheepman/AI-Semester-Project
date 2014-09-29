@@ -24,7 +24,7 @@
   (let ((ring (car cell))
         (index (cadr cell)))
     (cond ((not (and (>= ring 0) (< ring 4))) #f)
-          ((not (and (>= index 0) (< index 8))) #f)
+          ((not (and (>= index 0) (< index 12))) #f)
           (else (let ((contents (get-cell-value cell board)))
                   (cond ((not (eq? contents 'e)) #f)
                         (else #t)))))))

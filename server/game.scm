@@ -9,6 +9,7 @@
 
 (load "utils.scm")
 (load "board.scm")
+(load "network.scm")
 (load "player-class.scm")
 (load "human-player.scm")
 
@@ -38,35 +39,34 @@
 ;; -- Main Driver Function / Program Entry --                                  ;;
 ;;                                                                             ;;
 ;;-----------------------------------------------------------------------------;;
+(define port 6666)
 
-(define (main)
-  (let* ((board (map (lambda (x) (fill-list 'e 12)) (range 0 4 1)))
-         (player-1 (make <human>))
-         (player-2 (make <human>))
-         (player-move #f)
+(define (main)  
+  (let* (;;-- list of possible player types
+         (ptypes '(("human" . (make <human>))))
+         ;;-- player initialization
+         (player-1 (eval (assoc-ref ptypes (get-socket-data port)) (current-module)))
+         (player-2 (eval (assoc-ref ptypes (get-socket-data port)) (current-module)))
+         ;;-- board initialization
+         (board (map (lambda (x) (fill-list 'e 12)) (range 0 4 1)))
          (current-player player-2))
 
-    ;; setup player symbols
+    ;; setup player symbols (move to initialization later)
     (slot-set! player-1 'symbol 'x)
     (slot-set! player-2 'symbol 'o)
     
     ;;--------- START GAME ----------;;
-
     (do ()
         ((win-condition (get-symbol current-player) board))
       (begin
         (set! current-player (switch-player current-player player-1 player-2))
-        ;;- get move or flag
         (let ((cell (move current-player board)))
           (set-cell-value! (get-symbol current-player) cell board)
-          ;;- send cells
-          (print-board board))
-        ))
+          (print-board board)
+          (send-socket-data 6667 "#f"))))
 
-    (format #t "\nPlayer ~a wins!\n\n" (get-symbol current-player))
+    ;;-- send winner data
+    (send-socket-data port (get-symbol current-player))
     
-    ;;--------- END GAME ------------;;
-
-    
-    (format #t "\n  ---  EOF  ---\n\n")
+    (format #t "\n  ---  END GAME  ---\n\n")
     ))(main)
