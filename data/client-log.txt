@@ -1,0 +1,8 @@
+# Brian Maher
+# Killian Smith
+# CSCI 446 - Artificial Intelligence
+#
+# client-log.txt
+#     this file contains client-side logs for the polar-tic-tac-toe project
+
+
