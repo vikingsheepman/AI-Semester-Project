@@ -4,12 +4,12 @@ AI-Semester-Project
 
 Required
 ===================
-###### CHICKEN scheme
+### CHICKEN scheme
 ###### http://www.call-cc.org/
 
 
 Recommended
 ===================
-###### node.js
+### node.js
 ###### http://nodejs.org/
 ===================
