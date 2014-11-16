@@ -17,12 +17,24 @@ var client = new net.Socket();
 
 // initializing the connection
 client.connect(PORT, HOST, function() {
-	console.log('Connected to server at ' + HOST + ':' + PORT);
+	// log server connection
+	console.log('CONNECTED_TO: ' + HOST + ':' + PORT);
+
+	// send server a handshake message
+	client.write('handshake');
 });
 
 // event handler for when clientSock receives data from the server
 client.on('data', function(data) {
-	console.log('DATA: ' + data);
+	// log data received from server
+	console.log('DATA_RECEIVED: ' + data);
+
+	switch data {
+		case 'handshake':
+			break;
+		default:
+			break;
+	}
 });
 
 // event handler for when the connection between client and server are closed

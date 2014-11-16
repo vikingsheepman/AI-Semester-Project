@@ -6,5 +6,5 @@
 	;; listening on port 6666 on 127.0.0.1
 	(tcp-listen 6666)
 	(lambda ()
-		write-line ("test"))) 
+		(format #t "handshake"))) 
 #t)
